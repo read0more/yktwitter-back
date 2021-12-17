@@ -1,0 +1,27 @@
+{
+  "name": "yktwitter-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.ts",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "ts-node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/read0more/yktwitter-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/read0more/yktwitter-back/issues"
+  },
+  "homepage": "https://github.com/read0more/yktwitter-back#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13"
+  }
+}
