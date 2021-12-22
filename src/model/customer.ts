@@ -1,3 +1,5 @@
+import * as EmailValidator from "email-validator";
+
 export default class Customer {
   private _id: string = "";
   private _password: string = "";
@@ -50,6 +52,10 @@ export default class Customer {
     this._name = name;
   }
   public set email(email: string) {
+    if (!EmailValidator.validate(email)) {
+      throw Error("Invalid email");
+    }
+
     this._email = email;
   }
 
