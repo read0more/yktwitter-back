@@ -7,4 +7,8 @@ export default class CustomerService {
   create(customer: Customer) {
     this.customerRepository.create(customer);
   }
+
+  read(id: string) {
+    return this.customerRepository.read(id);
+  }
 }

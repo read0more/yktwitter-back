@@ -23,4 +23,14 @@ describe("customerService", () => {
     customerService.create(customer);
     expect(customerRepositoryStub.create).toHaveBeenCalledWith(customer);
   });
+
+  describe("read customer", () => {
+    it("read customer", () => {
+      expect(customerService.read("ykpark")).toEqual(customer);
+    });
+
+    it("read donsn't exist customer", () => {
+      expect(customerService.read("nobody")).toBe(null);
+    });
+  });
 });
