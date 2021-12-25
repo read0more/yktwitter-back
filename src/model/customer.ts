@@ -1,4 +1,5 @@
 import * as EmailValidator from "email-validator";
+import sha256 from "crypto-js/sha256";
 
 export default class Customer {
   private _id: string = "";
@@ -41,7 +42,7 @@ export default class Customer {
   }
 
   public set password(password: string) {
-    this._password = password;
+    this._password = sha256(password + process.env.PASSWORD_SALT).toString();
   }
 
   public set name(name: string) {
@@ -57,5 +58,15 @@ export default class Customer {
 
   public set profilePictureURL(profilePictureURL: string) {
     this._profilePictureURL = profilePictureURL;
+  }
+
+  public getObject() {
+    return {
+      id: this.id,
+      password: this.password,
+      name: this.name,
+      email: this.email,
+      profile_picture_url: this.profilePictureURL,
+    };
   }
 }

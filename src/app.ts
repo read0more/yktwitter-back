@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import authRouter, * as authPath from "./routes/authRouter";
 import customerRouter, * as customerPath from "./routes/customerRouter";
 import postsRouter, * as postsPath from "./routes/postsRouter";
@@ -8,6 +8,11 @@ import postsRouter, * as postsPath from "./routes/postsRouter";
 const app = express();
 const port = 3000;
 
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(authPath.ROOT, authRouter);
 app.use(customerPath.ROOT, customerRouter);
 app.use(postsPath.ROOT, postsRouter);

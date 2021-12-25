@@ -1,8 +1,7 @@
 import CustomerRepository from "../interface/CustomerRepository";
-import customer from "../model/customer";
+import Customer from "../model/customer";
 import { createConnection, Connection } from "mysql";
-
-class mysqlUserRepository implements CustomerRepository {
+export default class mysqlUserRepository implements CustomerRepository {
   private connection: Connection;
 
   constructor() {
@@ -23,5 +22,20 @@ class mysqlUserRepository implements CustomerRepository {
     });
   }
 
-  create(customer: customer): void {}
+  create(customer: Customer): void {
+    const query = "INSERT INTO customer SET ?";
+    this.connection.query(query, customer.getObject());
+  }
+
+  read(id: string): Customer | null {
+    return null;
+  }
+
+  update(customer: Customer): Customer | null {
+    return null;
+  }
+
+  delete(id: string): boolean {
+    return true;
+  }
 }

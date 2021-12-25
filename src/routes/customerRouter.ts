@@ -1,6 +1,10 @@
 import { Router } from "express";
+import Customer from "../model/customer";
+import MysqlUserRepository from "../repository/mysqlUserRepository";
+import CustomerService from "../service/customerService";
 
 const router = Router();
+const customerService = new CustomerService(new MysqlUserRepository());
 export const ROOT = "/customer";
 export const ME = "/me";
 export const GET = "/:id";
@@ -17,8 +21,27 @@ router.get(GET, (req, res) => {
 });
 
 router.post(POST, (req, res) => {
-  // todo: 사용자 create
-  res.status(201).send("");
+  try {
+    console.log(req.body);
+    const { id, password, name, email, profile_picture_url } = req.body;
+    if (!id || !password || !name || !email) {
+      throw Error();
+    }
+
+    const customer = new Customer(
+      id,
+      password,
+      name,
+      email,
+      profile_picture_url
+    );
+
+    customerService.create(customer);
+    res.status(201).send("");
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Failed user create");
+  }
 });
 
 export default router;
