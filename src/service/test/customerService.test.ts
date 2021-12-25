@@ -33,4 +33,35 @@ describe("customerService", () => {
       expect(customerService.read("nobody")).toBe(null);
     });
   });
+
+  describe("update customer", () => {
+    it("update customer", () => {
+      customer.password = "new pass";
+      customer.name = "new name";
+      customer.email = "newEmail@test.com";
+      customer.profilePictureURL = "https://new.com";
+      expect(customerService.update(customer)).toEqual(customer);
+    });
+
+    it("trying to update donsn't exist customer", () => {
+      const fakeCustomer = new Customer(
+        "123",
+        "asd",
+        "name",
+        "email@test.com",
+        "https://gsdg.com"
+      );
+      expect(customerService.update(fakeCustomer)).toBe(null);
+    });
+  });
+
+  describe("delete customer", () => {
+    it("delete customer", () => {
+      expect(customerService.delete("ykpark")).toBe(true);
+    });
+
+    it("trying to delete donsn't exist customer", () => {
+      expect(customerService.delete("nonono")).toBe(false);
+    });
+  });
 });

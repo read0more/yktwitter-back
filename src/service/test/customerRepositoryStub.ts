@@ -22,6 +22,16 @@ const customerData: {
 export default class customerRepositoryStub implements CustomerRepository {
   create(customer: Customer): void {}
   read(id: string): Customer | null {
-    return customerData[id] ? customerData[id] : null;
+    return customerData[id] || null;
+  }
+
+  update(customer: Customer): Customer | null {
+    if (!customerData[customer.id]) return null;
+    customerData[customer.id] = customer;
+    return customerData[customer.id];
+  }
+
+  delete(id: string): boolean {
+    return !!customerData[id];
   }
 }

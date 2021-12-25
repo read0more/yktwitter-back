@@ -11,4 +11,12 @@ export default class CustomerService {
   read(id: string) {
     return this.customerRepository.read(id);
   }
+
+  update(customer: Customer) {
+    return this.customerRepository.update(customer);
+  }
+
+  delete(id: string) {
+    return this.customerRepository.delete(id);
+  }
 }

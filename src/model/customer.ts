@@ -14,7 +14,7 @@ export default class Customer {
     email: string,
     profilePictureURL: string
   ) {
-    this.id = id;
+    this._id = id;
     this.password = password;
     this.name = name;
     this.email = email;
@@ -38,10 +38,6 @@ export default class Customer {
 
   public get profilePictureURL() {
     return this._profilePictureURL;
-  }
-
-  public set id(id: string) {
-    this._id = id;
   }
 
   public set password(password: string) {
