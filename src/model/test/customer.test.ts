@@ -1,4 +1,7 @@
 import Customer from "../customer";
+import sha256 from "crypto-js/sha256";
+import dotenv from "dotenv";
+dotenv.config();
 
 describe("customer model", () => {
   it("check value is set", () => {
@@ -10,7 +13,9 @@ describe("customer model", () => {
     const customer = new Customer(id, password, name, email, profilePictureURL);
 
     expect(customer.id).toBe(id);
-    expect(customer.password).toBe(password);
+    expect(customer.password).toBe(
+      sha256(password + process.env.PASSWORD_SALT).toString()
+    );
     expect(customer.name).toBe(name);
     expect(customer.email).toBe(email);
     expect(customer.profilePictureURL).toBe(profilePictureURL);
