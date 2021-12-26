@@ -1,13 +1,12 @@
 import PostRepository from "../../interface/PostRepository";
 import Customer from "../../model/customer";
 import Post from "../../model/post";
-
-const postData: {
-  [key: string]: Post;
-} = {
-  ykpark: new Post(1, "트윗1"),
-  ykpark2: new Post(2, "트윗2"),
-};
 export default class customerRepositoryStub implements PostRepository {
+  constructor(public postData: Post[]) {}
   create(post: Post): void {}
+  readAll(): Promise<any> {
+    return new Promise((resolve) => {
+      resolve(this.postData);
+    });
+  }
 }

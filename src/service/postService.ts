@@ -7,4 +7,8 @@ export default class PostService {
   create(post: Post) {
     this.postRepository.create(post);
   }
+
+  readAll() {
+    return this.postRepository.readAll();
+  }
 }
