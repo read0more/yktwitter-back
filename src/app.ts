@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "./bootstrap";
 import express from "express";
 import authRouter, * as authPath from "./routes/authRouter";
 import customerRouter, * as customerPath from "./routes/customerRouter";

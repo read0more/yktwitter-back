@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Customer from "../model/customer";
-import MysqlUserRepository from "../repository/mysqlUserRepository";
+import MysqlUserRepository from "../repository/MysqlUserRepository";
 import CustomerService from "../service/customerService";
 
 const router = Router();
