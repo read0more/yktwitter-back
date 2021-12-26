@@ -10,7 +10,7 @@ export const ME = "/me";
 export const GET = "/:id";
 export const POST = "/";
 
-router.get(ME, (req, res) => {
+router.get(ME, (req, res, next) => {
   // todo: 자기 정보 가져오기
   res.status(200).send("");
 });
@@ -22,7 +22,6 @@ router.get(GET, (req, res) => {
 
 router.post(POST, (req, res) => {
   try {
-    console.log(req.body);
     const { id, password, name, email, profile_picture_url } = req.body;
     if (!id || !password || !name || !email) {
       throw Error();

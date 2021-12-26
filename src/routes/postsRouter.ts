@@ -1,6 +1,11 @@
 import { Router } from "express";
+import Customer from "../model/customer";
+import Post from "../model/post";
+import MysqlPostRepository from "../repository/MysqlPostRepository";
+import PostService from "../service/postService";
 
 const router = Router();
+const postService = new PostService(new MysqlPostRepository());
 export const ROOT = "/posts";
 export const GET = "/";
 export const POST = "/";
@@ -12,6 +17,8 @@ router.get(GET, (req, res) => {
 });
 
 router.post(POST, (req, res) => {
+  const { id, content } = req.body;
+  postService.create(new Post(id, content));
   res.status(201).send("");
 });
 
