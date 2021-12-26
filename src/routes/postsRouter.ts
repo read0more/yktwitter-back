@@ -12,8 +12,9 @@ export const POST = "/";
 export const PUT = "/:id";
 export const DELETE = "/:id";
 
-router.get(GET, (req, res) => {
-  res.status(200).send("");
+router.get(GET, async (req, res) => {
+  const result = await postService.readAll();
+  res.status(200).send(result);
 });
 
 router.post(POST, (req, res) => {
