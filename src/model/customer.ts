@@ -60,7 +60,7 @@ export default class Customer {
     this._profilePictureURL = profilePictureURL;
   }
 
-  public getObject() {
+  public toObject() {
     return {
       id: this.id,
       password: this.password,

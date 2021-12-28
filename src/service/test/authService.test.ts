@@ -1,6 +1,9 @@
 import Customer from "../../model/customer";
-import AuthService from "../AuthService";
+import AuthService, { TokenInterface } from "../AuthService";
 import AuthRepositoryStub from "./authRepositoryStub";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 describe("authService", () => {
   let authService: AuthService;
@@ -13,12 +16,23 @@ describe("authService", () => {
     authService = new AuthService(new AuthRepositoryStub(customers));
   });
   it("login", () => {
-    const user = authService.login(customers[1].id, customers[1].password);
-    expect(user).toEqual(customers[1]);
+    const targetCustomer = customers[1].toObject();
+    const token = authService.login(customers[1].id, customers[1].password);
+    const customer = jwt.verify(
+      token as string,
+      process.env.PASSWORD_SALT as string
+    ) as TokenInterface;
+
+    expect(customer.id).toBe(targetCustomer.id);
+    expect(customer.email).toBe(targetCustomer.email);
+    expect(customer.name).toBe(targetCustomer.name);
+    expect(customer.profile_picture_url).toBe(
+      targetCustomer.profile_picture_url
+    );
   });
 
   it("trying login dosen't exists", () => {
     const user = authService.login("none", "none");
-    expect(user).toEqual(undefined);
+    expect(user).toEqual(null);
   });
 });
