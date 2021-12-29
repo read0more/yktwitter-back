@@ -3,7 +3,7 @@ import Customer from "../model/customer";
 export default class MysqlUserRepository implements CustomerRepository {
   create(customer: Customer): void {
     const query = "INSERT INTO customer SET ?";
-    global.connection.query(query, customer.getObject());
+    global.connection.query(query, customer.toObject());
   }
 
   read(id: string): Customer | null {
