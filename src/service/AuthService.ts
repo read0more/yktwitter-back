@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 
 export interface TokenInterface {
   id: string;
+  exp?: number;
+  iat?: number;
   name: string;
   email: string;
   profile_picture_url: string;

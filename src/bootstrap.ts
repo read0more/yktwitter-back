@@ -1,9 +1,11 @@
 import dotenv from "dotenv";
 import { createConnection, Connection } from "mysql";
+import { TokenInterface } from "./service/AuthService";
 
 dotenv.config();
 
 declare global {
+  var customer: TokenInterface | null;
   var connection: Connection;
 }
 
