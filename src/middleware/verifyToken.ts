@@ -9,7 +9,7 @@ export default function verifyToken(
   res: Response<any, Record<string, any>>,
   next: NextFunction
 ): void {
-  const bearerToken = req.headers["authorization"]?.split(" ")?.[1];
+  const bearerToken = req.headers?.authorization?.split(" ")?.[1];
 
   if (bearerToken) {
     const customer = jwt.verify(
@@ -17,7 +17,8 @@ export default function verifyToken(
       process.env.PASSWORD_SALT as string
     ) as TokenInterface;
     global.customer = customer;
+    next();
+  } else {
+    throw Error("bearer token is null.");
   }
-
-  next();
 }

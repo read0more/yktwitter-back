@@ -19,6 +19,16 @@ describe("tokenValidator", () => {
     };
   });
 
+  it("token is null error", () => {
+    expect(() => {
+      verifyToken(
+        mockRequest as Request,
+        mockResponse as Response,
+        nextFunction
+      );
+    }).toThrowError("bearer token is null.");
+  });
+
   it("store customer data global if token validate success", () => {
     const customer: TokenInterface = {
       email: "test@test.com",
