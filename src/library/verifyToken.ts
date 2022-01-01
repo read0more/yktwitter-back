@@ -1,7 +1,4 @@
 import jwt from "jsonwebtoken";
-import { NextFunction, Request, Response } from "express";
-import { ParamsDictionary } from "express-serve-static-core";
-import { ParsedQs } from "qs";
 import { TokenInterface } from "../service/AuthService";
 
 export default function verifyToken(token: string): void {
