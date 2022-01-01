@@ -1,24 +1,13 @@
-import express, { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { TokenInterface } from "../../service/AuthService";
 import verifyToken from "../verifyToken";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
+const salt = process.env.PASSWORD_SALT as string;
 
 describe("tokenValidator", () => {
-  let mockRequest: Partial<Request>;
-  let mockResponse: Partial<Response>;
-  let nextFunction: NextFunction = jest.fn();
-  const salt = process.env.PASSWORD_SALT as string;
-
-  beforeEach(() => {
-    mockRequest = {};
-    mockResponse = {
-      json: jest.fn(),
-    };
-  });
-
   it("token is null error", () => {
     expect(() => {
       verifyToken("");
