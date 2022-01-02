@@ -8,7 +8,6 @@ const authService = new AuthService(new MysqlAuthRepository());
 
 export const ROOT = "/auth";
 export const LOGIN = "/login";
-export const LOGOUT = "/logout";
 export const ME = "/me";
 
 router.get(ME, (req, res, next) => {
@@ -25,11 +24,6 @@ router.post(LOGIN, async (req, res) => {
   } catch (e) {
     res.status(400).send("Login Failed.");
   }
-});
-
-router.post(LOGOUT, (req, res) => {
-  // todo: 로그아웃
-  res.status(200).send("");
 });
 
 export default router;
