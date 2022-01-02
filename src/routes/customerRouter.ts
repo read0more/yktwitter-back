@@ -17,11 +17,17 @@ router.get(ME, (req, res, next) => {
 
 router.get(GET, async (req, res) => {
   let customer = null;
-  if (req.params.id) {
-    customer = await customerService.read(req.params.id);
-  }
 
-  res.status(200).send(customer);
+  try {
+    if (!req.params.id) {
+      throw Error();
+    }
+
+    customer = await customerService.read(req.params.id);
+    res.status(200).send(customer);
+  } catch (e) {
+    res.status(400).send("Failed get customer");
+  }
 });
 
 router.post(POST, (req, res) => {
@@ -43,7 +49,7 @@ router.post(POST, (req, res) => {
     res.status(201).send("");
   } catch (e) {
     console.log(e);
-    res.status(500).send("Failed user create");
+    res.status(500).send("Failed customer create");
   }
 });
 
