@@ -1,4 +1,5 @@
 import { Router } from "express";
+import verifyToken from "../library/verifyToken";
 import Post from "../model/Post";
 import MysqlPostRepository from "../repository/MysqlPostRepository";
 import PostService from "../service/postService";
@@ -16,14 +17,25 @@ router.get(GET, async (req, res) => {
   res.status(200).send(result);
 });
 
-router.post(POST, (req, res) => {
-  const { id, content } = req.body;
-  postService.create(new Post(id, content));
-  res.status(201).send("");
+router.post(POST, async (req, res) => {
+  const { customer_id, content } = req.body;
+  const result = await postService.create(new Post(customer_id, content));
+  res.status(201).send(result);
 });
 
-router.put(PUT, (req, res) => {
-  res.status(200).send("");
+router.put(PUT, async (req, res) => {
+  let id = parseInt(req.params.id);
+
+  if (!id || isNaN(id)) {
+    throw Error();
+  }
+
+  const { content } = req.body;
+  const customer = verifyToken(req.token);
+  const result = await postService.update(
+    new Post(customer.entity_id, content, id)
+  );
+  res.status(200).send(result);
 });
 
 router.delete(DELETE, (req, res) => {

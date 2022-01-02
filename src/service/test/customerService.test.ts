@@ -16,7 +16,7 @@ describe("customerService", () => {
     const name = "name";
     const email = "ykpark@test.com";
     const profilePictureURL = "https://google.com";
-    customer = new Customer(id, password, name, email, profilePictureURL);
+    customer = new Customer(1, id, password, name, email, profilePictureURL);
   });
 
   it("create customer", () => {
@@ -26,12 +26,12 @@ describe("customerService", () => {
 
   describe("read customer", () => {
     it("read customer", async () => {
-      const customerByService = await customerService.read("ykpark");
-      expect(customerByService).toEqual(customer.toObject());
+      const customerByService = await customerService.read(1);
+      expect(customerByService).toEqual(customer);
     });
 
     it("read donsn't exist customer", async () => {
-      const customerByService = await customerService.read("nobody");
+      const customerByService = await customerService.read(3);
       expect(customerByService).toBe(null);
     });
   });
@@ -47,6 +47,7 @@ describe("customerService", () => {
 
     it("trying to update donsn't exist customer", () => {
       const fakeCustomer = new Customer(
+        3,
         "123",
         "asd",
         "name",
@@ -59,11 +60,11 @@ describe("customerService", () => {
 
   describe("delete customer", () => {
     it("delete customer", () => {
-      expect(customerService.delete("ykpark")).toBe(true);
+      expect(customerService.delete(2)).toBe(true);
     });
 
     it("trying to delete donsn't exist customer", () => {
-      expect(customerService.delete("nonono")).toBe(false);
+      expect(customerService.delete(4)).toBe(false);
     });
   });
 });

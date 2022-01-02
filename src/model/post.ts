@@ -1,7 +1,8 @@
 export default class Post {
   constructor(
-    public customer_id: number,
+    public customerId: number | null,
     public contetnt: string,
+    public entityId: number | null = null,
     public createdAt: Date | null = null
   ) {}
 }

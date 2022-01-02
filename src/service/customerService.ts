@@ -8,7 +8,7 @@ export default class CustomerService {
     this.customerRepository.create(customer);
   }
 
-  read(id: string) {
+  read(id: number) {
     return this.customerRepository.read(id);
   }
 
@@ -16,7 +16,7 @@ export default class CustomerService {
     return this.customerRepository.update(customer);
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.customerRepository.delete(id);
   }
 }

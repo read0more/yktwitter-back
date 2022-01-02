@@ -8,8 +8,15 @@ dotenv.config();
 describe("authService", () => {
   let authService: AuthService;
   const customers = [
-    new Customer("yk1", "66c", "park", "park@test.com", "https://google.com"),
-    new Customer("yk2", "jc", "yun", "yun@test.com", "https://yunyun.com"),
+    new Customer(
+      1,
+      "yk1",
+      "66c",
+      "park",
+      "park@test.com",
+      "https://google.com"
+    ),
+    new Customer(2, "yk2", "jc", "yun", "yun@test.com", "https://yunyun.com"),
   ];
 
   beforeEach(() => {

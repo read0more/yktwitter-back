@@ -8,8 +8,8 @@ describe("postService", () => {
   let customer: Customer;
   let postRepositoryStub: PostRepositoryStub;
   const postData = [
-    new Post(1, "트윗1", new Date("2021-12-26 10:10:09")),
-    new Post(2, "트윗2", new Date("2021-12-26 10:10:09")),
+    new Post(1, "트윗1", null, new Date("2021-12-26 10:10:09")),
+    new Post(2, "트윗2", null, new Date("2021-12-26 10:10:09")),
   ];
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe("postService", () => {
     const name = "name";
     const email = "ykpark@test.com";
     const profilePictureURL = "https://google.com";
-    customer = new Customer(id, password, name, email, profilePictureURL);
+    customer = new Customer(null, id, password, name, email, profilePictureURL);
   });
 
   it("create post", async () => {

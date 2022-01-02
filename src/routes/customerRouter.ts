@@ -13,11 +13,13 @@ router.get(GET, async (req, res) => {
   let customer = null;
 
   try {
-    if (!req.params.id) {
+    let id = parseInt(req.params.id);
+
+    if (!id || isNaN(id)) {
       throw Error();
     }
 
-    customer = await customerService.read(req.params.id);
+    customer = await customerService.read(id);
     res.status(200).send(customer);
   } catch (e) {
     res.status(400).send("Failed get customer");
@@ -32,6 +34,7 @@ router.post(POST, (req, res) => {
     }
 
     const customer = new Customer(
+      null,
       id,
       password,
       name,

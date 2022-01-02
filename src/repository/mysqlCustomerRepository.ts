@@ -7,7 +7,7 @@ export default class MysqlCustomerRepository implements CustomerRepository {
     global.connection.query(query, customer.toObject());
   }
 
-  read(id: string): Promise<TokenInterface> {
+  read(id: number): Promise<Customer> {
     const query =
       "SELECT id, name, email, profile_picture_url FROM customer WHERE entity_id = ?";
     return new Promise((resolve, reject) => {
@@ -16,13 +16,13 @@ export default class MysqlCustomerRepository implements CustomerRepository {
           reject(error);
         } else {
           const customer = new Customer(
+            results[0].entity_id,
             results[0].id,
             results[0].password,
             results[0].name,
             results[0].email,
             results[0].profile_picture_url
-          ).toObject();
-          customer.password = "";
+          );
 
           resolve(customer);
         }
@@ -34,7 +34,7 @@ export default class MysqlCustomerRepository implements CustomerRepository {
     return null;
   }
 
-  delete(id: string): boolean {
+  delete(id: number): boolean {
     return true;
   }
 }
