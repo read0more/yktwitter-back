@@ -25,12 +25,14 @@ describe("customerService", () => {
   });
 
   describe("read customer", () => {
-    it("read customer", () => {
-      expect(customerService.read("ykpark")).toEqual(customer);
+    it("read customer", async () => {
+      const customerByService = await customerService.read("ykpark");
+      expect(customerByService).toEqual(customer.toObject());
     });
 
-    it("read donsn't exist customer", () => {
-      expect(customerService.read("nobody")).toBe(null);
+    it("read donsn't exist customer", async () => {
+      const customerByService = await customerService.read("nobody");
+      expect(customerByService).toBe(null);
     });
   });
 

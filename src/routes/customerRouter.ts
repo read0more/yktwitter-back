@@ -15,9 +15,13 @@ router.get(ME, (req, res, next) => {
   res.status(200).send("");
 });
 
-router.get(GET, (req, res) => {
-  // todo: :id값의 id 가진 사용자 정보 가져오기
-  res.status(200).send("");
+router.get(GET, async (req, res) => {
+  let customer = null;
+  if (req.params.id) {
+    customer = await customerService.read(req.params.id);
+  }
+
+  res.status(200).send(customer);
 });
 
 router.post(POST, (req, res) => {
