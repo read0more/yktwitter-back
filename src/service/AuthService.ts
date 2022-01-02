@@ -11,15 +11,25 @@ export interface TokenInterface {
 }
 export default class AuthService {
   constructor(private authRepository: AuthRepository) {}
-  login(id: string, password: string) {
-    const customer = this.authRepository.login(id, password)?.toObject();
+  async login(id: string, password: string) {
+    const customer = await this.authRepository.login(id, password);
+    const customerObject = customer?.toObject();
     const salt = process.env.PASSWORD_SALT;
 
-    if (customer && salt) {
-      customer.password = "";
-      return jwt.sign(customer, salt, { expiresIn: "1h" });
+    if (customerObject && salt) {
+      customerObject.password = "";
+      return jwt.sign(customerObject, salt, { expiresIn: "6h" });
     }
 
     return null;
+  }
+
+  me(token: string) {
+    const customer = jwt.verify(
+      token,
+      process.env.PASSWORD_SALT as string
+    ) as TokenInterface;
+
+    return customer;
   }
 }
