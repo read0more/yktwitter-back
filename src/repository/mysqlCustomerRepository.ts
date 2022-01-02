@@ -1,7 +1,7 @@
-import { TokenInterface } from "./../service/AuthService";
+import { TokenInterface } from "../service/AuthService";
 import CustomerRepository from "../interface/CustomerRepository";
 import Customer from "../model/customer";
-export default class MysqlUserRepository implements CustomerRepository {
+export default class mysqlCustomerRepository implements CustomerRepository {
   create(customer: Customer): void {
     const query = "INSERT INTO customer SET ?";
     global.connection.query(query, customer.toObject());
