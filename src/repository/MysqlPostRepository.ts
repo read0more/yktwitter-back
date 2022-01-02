@@ -1,5 +1,5 @@
 import PostRepository from "../interface/PostRepository";
-import Post from "../model/post";
+import Post from "../model/Post";
 export default class MysqlPostRepository implements PostRepository {
   create(post: Post): void {
     const query = "INSERT INTO post (customer_id,content) VALUES (?, ?)";

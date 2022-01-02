@@ -1,5 +1,5 @@
 import CustomerRepository from "../interface/CustomerRepository";
-import Customer from "../model/customer";
+import Customer from "../model/Customer";
 
 export default class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}

@@ -1,4 +1,4 @@
-import Customer from "../model/customer";
+import Customer from "../model/Customer";
 import { TokenInterface } from "../service/AuthService";
 
 export default interface CustomerRepository {

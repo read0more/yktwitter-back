@@ -1,10 +1,10 @@
 import { Router } from "express";
-import Customer from "../model/customer";
-import mysqlCustomerRepository from "../repository/mysqlCustomerRepository";
-import CustomerService from "../service/customerService";
+import Customer from "../model/Customer";
+import MysqlCustomerRepository from "../repository/MysqlCustomerRepository";
+import CustomerService from "../service/CustomerService";
 
 const router = Router();
-const customerService = new CustomerService(new mysqlCustomerRepository());
+const customerService = new CustomerService(new MysqlCustomerRepository());
 export const ROOT = "/customer";
 export const GET = "/:id";
 export const POST = "/";

@@ -1,5 +1,5 @@
 import PostRepository from "../interface/PostRepository";
-import Post from "../model/post";
+import Post from "../model/Post";
 
 export default class PostService {
   constructor(private postRepository: PostRepository) {}

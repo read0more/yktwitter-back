@@ -1,5 +1,5 @@
 import AuthRepository from "../../interface/AuthRepository";
-import Customer from "../../model/customer";
+import Customer from "../../model/Customer";
 
 export default class authRepositoryStub implements AuthRepository {
   constructor(public customers: Customer[]) {}

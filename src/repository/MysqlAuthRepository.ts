@@ -1,7 +1,5 @@
-import { TokenInterface } from "../service/AuthService";
 import AuthRepository from "../interface/AuthRepository";
-import Customer from "../model/customer";
-import { createPassword } from "../library/hash";
+import Customer from "../model/Customer";
 
 export default class MysqlAuthRepository implements AuthRepository {
   login(id: string, password: string): Promise<Customer> {

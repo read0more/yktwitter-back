@@ -1,6 +1,5 @@
 import { Router } from "express";
-import Customer from "../model/customer";
-import Post from "../model/post";
+import Post from "../model/Post";
 import MysqlPostRepository from "../repository/MysqlPostRepository";
 import PostService from "../service/postService";
 

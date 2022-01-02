@@ -1,5 +1,5 @@
 import CustomerRepository from "../../interface/CustomerRepository";
-import Customer from "../../model/customer";
+import Customer from "../../model/Customer";
 import { TokenInterface } from "../AuthService";
 
 const customerData: {
