@@ -24,14 +24,20 @@ describe("postService", () => {
     customer = new Customer(id, password, name, email, profilePictureURL);
   });
 
-  it("create post", () => {
+  it("create post", async () => {
     const post = new Post(1, "트윗1");
-    postService.create(post);
-    expect(postRepositoryStub.create).toHaveBeenCalledWith(post);
+    const createdPost = await postService.create(post);
+    expect(createdPost).toEqual(post);
   });
 
   it("read all post", async () => {
     const result = await postService.readAll();
     expect(result).toEqual(postData);
+  });
+
+  it("update post", async () => {
+    const post = new Post(1, "변경된 트윗");
+    const updatedPost = await postService.update(post);
+    expect(updatedPost).toEqual(post);
   });
 });

@@ -5,10 +5,14 @@ export default class PostService {
   constructor(private postRepository: PostRepository) {}
 
   create(post: Post) {
-    this.postRepository.create(post);
+    return this.postRepository.create(post);
   }
 
   readAll() {
     return this.postRepository.readAll();
+  }
+
+  update(post: Post) {
+    return this.postRepository.update(post);
   }
 }
