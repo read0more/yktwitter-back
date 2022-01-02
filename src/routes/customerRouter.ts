@@ -6,14 +6,8 @@ import CustomerService from "../service/customerService";
 const router = Router();
 const customerService = new CustomerService(new mysqlCustomerRepository());
 export const ROOT = "/customer";
-export const ME = "/me";
 export const GET = "/:id";
 export const POST = "/";
-
-router.get(ME, (req, res, next) => {
-  // todo: 자기 정보 가져오기
-  res.status(200).send("");
-});
 
 router.get(GET, async (req, res) => {
   let customer = null;

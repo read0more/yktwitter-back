@@ -1,5 +1,5 @@
 import * as EmailValidator from "email-validator";
-import sha256 from "crypto-js/sha256";
+import { createPassword } from "../library/hash";
 
 export default class Customer {
   private _id: string = "";
@@ -42,7 +42,7 @@ export default class Customer {
   }
 
   public set password(password: string) {
-    this._password = sha256(password + process.env.PASSWORD_SALT).toString();
+    this._password = createPassword(password, process.env.PASSWORD_SALT);
   }
 
   public set name(name: string) {

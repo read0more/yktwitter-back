@@ -15,9 +15,12 @@ describe("authService", () => {
   beforeEach(() => {
     authService = new AuthService(new AuthRepositoryStub(customers));
   });
-  it("login", () => {
+  it("login", async () => {
     const targetCustomer = customers[1].toObject();
-    const token = authService.login(customers[1].id, customers[1].password);
+    const token = await authService.login(
+      customers[1].id,
+      customers[1].password
+    );
     const customer = jwt.verify(
       token as string,
       process.env.PASSWORD_SALT as string
@@ -31,8 +34,24 @@ describe("authService", () => {
     );
   });
 
-  it("trying login dosen't exists", () => {
-    const user = authService.login("none", "none");
-    expect(user).toEqual(null);
+  it("trying login dosen't exists", async () => {
+    const customer = await authService.login("none", "none");
+    expect(customer).toEqual(null);
+  });
+
+  it("get my info by token", async () => {
+    const targetCustomer = customers[1].toObject();
+    const token = await authService.login(
+      customers[1].id,
+      customers[1].password
+    );
+
+    const customer = authService.me(token as string);
+    expect(customer.id).toBe(targetCustomer.id);
+    expect(customer.email).toBe(targetCustomer.email);
+    expect(customer.name).toBe(targetCustomer.name);
+    expect(customer.profile_picture_url).toBe(
+      targetCustomer.profile_picture_url
+    );
   });
 });
