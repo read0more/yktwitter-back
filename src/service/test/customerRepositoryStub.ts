@@ -1,5 +1,6 @@
 import CustomerRepository from "../../interface/CustomerRepository";
 import Customer from "../../model/customer";
+import { TokenInterface } from "../AuthService";
 
 const customerData: {
   [key: string]: Customer;
@@ -21,8 +22,10 @@ const customerData: {
 };
 export default class customerRepositoryStub implements CustomerRepository {
   create(customer: Customer): void {}
-  read(id: string): Customer | null {
-    return customerData[id] || null;
+  read(id: string): Promise<TokenInterface> {
+    return new Promise((resolve) => {
+      resolve(customerData[id]?.toObject() || null);
+    });
   }
 
   update(customer: Customer): Customer | null {
