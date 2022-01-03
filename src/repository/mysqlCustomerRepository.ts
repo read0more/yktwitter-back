@@ -1,9 +1,22 @@
+import { OkPacket } from "mysql";
 import CustomerRepository from "../interface/CustomerRepository";
 import Customer from "../model/Customer";
 export default class MysqlCustomerRepository implements CustomerRepository {
-  create(customer: Customer): void {
+  create(customer: Customer): Promise<boolean> {
     const query = "INSERT INTO customer SET ?";
-    global.connection.query(query, customer.toObject());
+    return new Promise((resolve, reject) => {
+      global.connection.query(
+        query,
+        customer.toObject(),
+        (error, results: OkPacket) => {
+          if (error || !results.affectedRows) {
+            reject(error);
+          }
+
+          resolve(true);
+        }
+      );
+    });
   }
 
   read(id: number): Promise<Customer> {
@@ -57,8 +70,8 @@ export default class MysqlCustomerRepository implements CustomerRepository {
   delete(id: number): Promise<boolean> {
     const query = "DELETE FROM customer WHERE entity_id = ?";
     return new Promise((resolve, reject) => {
-      global.connection.query(query, [id], (error) => {
-        if (error) {
+      global.connection.query(query, [id], (error, results: OkPacket) => {
+        if (error || !results.affectedRows) {
           reject(error);
         }
 

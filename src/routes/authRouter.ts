@@ -22,7 +22,7 @@ router.post(LOGIN, async (req, res) => {
     const token = await authService.login(id, password);
     res.status(200).send(token);
   } catch (e) {
-    res.status(400).send("Login Failed.");
+    res.status(401).send("Login Failed.");
   }
 });
 

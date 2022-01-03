@@ -1,3 +1,4 @@
+import { OkPacket } from "mysql";
 import PostRepository from "../interface/PostRepository";
 import Post from "../model/Post";
 export default class MysqlPostRepository implements PostRepository {
@@ -60,8 +61,8 @@ export default class MysqlPostRepository implements PostRepository {
   delete(id: number): Promise<boolean> {
     const query = "DELETE FROM post WHERE entity_id = ?;";
     return new Promise((resolve, reject) => {
-      global.connection.query(query, [id], (error) => {
-        if (error) {
+      global.connection.query(query, [id], (error, results: OkPacket) => {
+        if (error || !results.affectedRows) {
           reject(false);
         }
 

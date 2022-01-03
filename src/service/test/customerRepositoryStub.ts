@@ -1,4 +1,3 @@
-import { TokenInterface } from "./../AuthService";
 import CustomerRepository from "../../interface/CustomerRepository";
 import Customer from "../../model/Customer";
 
@@ -23,7 +22,10 @@ const customerData: {
   ),
 };
 export default class customerRepositoryStub implements CustomerRepository {
-  create(customer: Customer): void {}
+  create(customer: Customer): Promise<boolean> {
+    return new Promise((resolve) => resolve(true));
+  }
+
   read(id: number): Promise<Customer | null> {
     return new Promise((resolve) => {
       if (customerData[id]) {
