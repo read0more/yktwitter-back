@@ -16,6 +16,7 @@ describe("tokenValidator", () => {
 
   it("store customer data global if token validate success", () => {
     const customer: TokenInterface = {
+      entity_id: 1,
       email: "test@test.com",
       id: "yk",
       name: "parkyk",
@@ -23,9 +24,9 @@ describe("tokenValidator", () => {
     };
 
     const token = jwt.sign(customer, salt, { expiresIn: "1h" });
-    verifyToken(token);
-    delete global.customer?.exp;
-    delete global.customer?.iat;
-    expect(global.customer).toEqual(customer);
+    const verifiedCustomer = verifyToken(token);
+    delete verifiedCustomer?.exp;
+    delete verifiedCustomer?.iat;
+    expect(verifiedCustomer).toEqual(customer);
   });
 });

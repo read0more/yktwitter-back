@@ -2,6 +2,7 @@ import * as EmailValidator from "email-validator";
 import { createPassword } from "../library/hash";
 
 export default class Customer {
+  private _entity_id: number | null = null;
   private _id: string = "";
   private _password: string = "";
   private _name: string = "";
@@ -9,17 +10,23 @@ export default class Customer {
   private _profilePictureURL: string = "";
 
   constructor(
+    entity_id: number | null,
     id: string,
     password: string,
     name: string,
     email: string,
     profilePictureURL: string
   ) {
+    this._entity_id = entity_id;
     this._id = id;
     this.password = password;
     this.name = name;
     this.email = email;
     this.profilePictureURL = profilePictureURL;
+  }
+
+  public get entity_id() {
+    return this._entity_id;
   }
 
   public get id() {
@@ -62,6 +69,7 @@ export default class Customer {
 
   public toObject() {
     return {
+      entity_id: this._entity_id,
       id: this.id,
       password: this.password,
       name: this.name,

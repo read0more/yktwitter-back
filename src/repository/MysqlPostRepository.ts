@@ -1,9 +1,21 @@
 import PostRepository from "../interface/PostRepository";
 import Post from "../model/Post";
 export default class MysqlPostRepository implements PostRepository {
-  create(post: Post): void {
+  create(post: Post): Promise<Post> {
     const query = "INSERT INTO post (customer_id,content) VALUES (?, ?)";
-    global.connection.query(query, [post.customer_id, post.contetnt]);
+    return new Promise((resolve, reject) => {
+      global.connection.query(
+        query,
+        [post.customerId, post.contetnt],
+        (error) => {
+          if (error) {
+            reject(error);
+          }
+
+          resolve(post);
+        }
+      );
+    });
   }
 
   readAll(): Promise<any> {
@@ -19,11 +31,29 @@ export default class MysqlPostRepository implements PostRepository {
               new Post(
                 post.customer_id,
                 post.content,
+                post.entity_id,
                 new Date(post.created_at)
               )
           )
         );
       });
+    });
+  }
+
+  update(post: Post): Promise<Post> {
+    const query = "UPDATE post SET content = ? WHERE entity_id = ?;";
+    return new Promise((resolve, reject) => {
+      global.connection.query(
+        query,
+        [post.contetnt, post.entityId],
+        (error) => {
+          if (error) {
+            reject(error);
+          }
+
+          resolve(post);
+        }
+      );
     });
   }
 }

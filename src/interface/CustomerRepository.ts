@@ -1,9 +1,7 @@
 import Customer from "../model/Customer";
-import { TokenInterface } from "../service/AuthService";
-
 export default interface CustomerRepository {
   create(customer: Customer): void;
-  read(id: string): Promise<TokenInterface>;
+  read(id: number): Promise<Customer | null>;
   update(customer: Customer): Customer | null;
-  delete(id: string): boolean;
+  delete(id: number): boolean;
 }

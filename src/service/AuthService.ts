@@ -2,6 +2,7 @@ import AuthRepository from "../interface/AuthRepository";
 import jwt from "jsonwebtoken";
 
 export interface TokenInterface {
+  entity_id: number;
   id: string;
   exp?: number;
   iat?: number;

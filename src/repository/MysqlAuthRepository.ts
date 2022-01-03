@@ -11,6 +11,7 @@ export default class MysqlAuthRepository implements AuthRepository {
           reject(error);
         } else {
           const customer = new Customer(
+            results[0].entity_id,
             results[0].id,
             results[0].password,
             results[0].name,

@@ -10,7 +10,14 @@ describe("customer model", () => {
     const name = "name";
     const email = "ykpark@test.com";
     const profilePictureURL = "https://google.com";
-    const customer = new Customer(id, password, name, email, profilePictureURL);
+    const customer = new Customer(
+      null,
+      id,
+      password,
+      name,
+      email,
+      profilePictureURL
+    );
 
     expect(customer.id).toBe(id);
     expect(customer.password).toBe(
@@ -28,7 +35,7 @@ describe("customer model", () => {
     const email = "this is not email";
     const profilePictureURL = "https://google.com";
     expect(() => {
-      new Customer(id, password, name, email, profilePictureURL);
+      new Customer(null, id, password, name, email, profilePictureURL);
     }).toThrow("Invalid email");
   });
 });

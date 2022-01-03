@@ -1,18 +1,20 @@
+import { TokenInterface } from "./../AuthService";
 import CustomerRepository from "../../interface/CustomerRepository";
 import Customer from "../../model/Customer";
-import { TokenInterface } from "../AuthService";
 
 const customerData: {
-  [key: string]: Customer;
+  [key: number]: Customer;
 } = {
-  ykpark: new Customer(
+  1: new Customer(
+    1,
     "ykpark",
     "password",
     "name",
     "ykpark@test.com",
     "https://google.com"
   ),
-  ykpark2: new Customer(
+  2: new Customer(
+    2,
     "ykpark",
     "password",
     "park",
@@ -22,19 +24,23 @@ const customerData: {
 };
 export default class customerRepositoryStub implements CustomerRepository {
   create(customer: Customer): void {}
-  read(id: string): Promise<TokenInterface> {
+  read(id: number): Promise<Customer | null> {
     return new Promise((resolve) => {
-      resolve(customerData[id]?.toObject() || null);
+      if (customerData[id]) {
+        resolve(customerData[id]);
+      } else {
+        resolve(null);
+      }
     });
   }
 
   update(customer: Customer): Customer | null {
-    if (!customerData[customer.id]) return null;
-    customerData[customer.id] = customer;
-    return customerData[customer.id];
+    if (!customer.entity_id || !customerData[customer.entity_id]) return null;
+    customerData[customer.entity_id] = customer;
+    return customerData[customer.entity_id];
   }
 
-  delete(id: string): boolean {
+  delete(id: number): boolean {
     return !!customerData[id];
   }
 }
