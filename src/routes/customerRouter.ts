@@ -1,4 +1,5 @@
 import { Router } from "express";
+import verifyToken from "../library/verifyToken";
 import Customer from "../model/Customer";
 import MysqlCustomerRepository from "../repository/MysqlCustomerRepository";
 import CustomerService from "../service/CustomerService";
@@ -8,6 +9,7 @@ const customerService = new CustomerService(new MysqlCustomerRepository());
 export const ROOT = "/customer";
 export const GET = "/:id";
 export const POST = "/";
+export const PUT = "/:id";
 
 router.get(GET, async (req, res) => {
   let customer = null;
@@ -48,6 +50,37 @@ router.post(POST, (req, res) => {
     console.log(e);
     res.status(500).send("Failed customer create");
   }
+});
+
+router.put(PUT, async (req, res) => {
+  let entity_id = req.params.id;
+  const { id, password, name, email, profile_picture_url } = req.body;
+  const customer = verifyToken(req.token);
+
+  if (
+    parseInt(entity_id) !== customer.entity_id ||
+    !id ||
+    !password ||
+    !name ||
+    !email ||
+    !profile_picture_url
+  ) {
+    console.log("han");
+    throw Error();
+  }
+
+  const result = await customerService.update(
+    new Customer(
+      customer.entity_id,
+      id,
+      password,
+      name,
+      email,
+      profile_picture_url
+    )
+  );
+
+  res.status(200).send(result);
 });
 
 export default router;

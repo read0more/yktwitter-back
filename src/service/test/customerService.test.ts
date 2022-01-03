@@ -37,15 +37,16 @@ describe("customerService", () => {
   });
 
   describe("update customer", () => {
-    it("update customer", () => {
+    it("update customer", async () => {
       customer.password = "new pass";
       customer.name = "new name";
       customer.email = "newEmail@test.com";
       customer.profilePictureURL = "https://new.com";
-      expect(customerService.update(customer)).toEqual(customer);
+      const updatedCustomer = await customerService.update(customer);
+      expect(updatedCustomer).toEqual(customer);
     });
 
-    it("trying to update donsn't exist customer", () => {
+    it("trying to update donsn't exist customer", async () => {
       const fakeCustomer = new Customer(
         3,
         "123",
@@ -54,7 +55,8 @@ describe("customerService", () => {
         "email@test.com",
         "https://gsdg.com"
       );
-      expect(customerService.update(fakeCustomer)).toBe(null);
+      const result = await customerService.update(fakeCustomer);
+      expect(result).toBe(null);
     });
   });
 

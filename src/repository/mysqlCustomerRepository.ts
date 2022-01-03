@@ -1,4 +1,3 @@
-import { TokenInterface } from "../service/AuthService";
 import CustomerRepository from "../interface/CustomerRepository";
 import Customer from "../model/Customer";
 export default class MysqlCustomerRepository implements CustomerRepository {
@@ -30,8 +29,29 @@ export default class MysqlCustomerRepository implements CustomerRepository {
     });
   }
 
-  update(customer: Customer): Customer | null {
-    return null;
+  update(customer: Customer): Promise<Customer | null> {
+    const query =
+      "UPDATE customer SET email = ?, profile_picture_url = ?, password = ?, name = ?, id = ? WHERE entity_id = ?;";
+    return new Promise((resolve, reject) => {
+      global.connection.query(
+        query,
+        [
+          customer.email,
+          customer.profilePictureURL,
+          customer.password,
+          customer.name,
+          customer.id,
+          customer.entityId,
+        ],
+        (error) => {
+          if (error) {
+            reject(error);
+          }
+
+          resolve(customer);
+        }
+      );
+    });
   }
 
   delete(id: number): boolean {

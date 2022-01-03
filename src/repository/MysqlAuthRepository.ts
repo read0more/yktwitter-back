@@ -4,7 +4,7 @@ import Customer from "../model/Customer";
 export default class MysqlAuthRepository implements AuthRepository {
   login(id: string, password: string): Promise<Customer> {
     const query =
-      "SELECT id, name, email, profile_picture_url FROM customer WHERE id = ? AND password = ?";
+      "SELECT entity_id, id, name, email, profile_picture_url FROM customer WHERE id = ? AND password = ?";
     return new Promise((resolve, reject) => {
       global.connection.query(query, [id, password], (error, results) => {
         if (!results?.length || error) {

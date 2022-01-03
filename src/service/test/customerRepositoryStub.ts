@@ -34,10 +34,15 @@ export default class customerRepositoryStub implements CustomerRepository {
     });
   }
 
-  update(customer: Customer): Customer | null {
-    if (!customer.entity_id || !customerData[customer.entity_id]) return null;
-    customerData[customer.entity_id] = customer;
-    return customerData[customer.entity_id];
+  update(customer: Customer): Promise<Customer | null> {
+    return new Promise((resolve) => {
+      if (!customer.entityId || !customerData[customer.entityId]) {
+        resolve(null);
+      } else {
+        customerData[customer.entityId] = customer;
+        resolve(customerData[customer.entityId]);
+      }
+    });
   }
 
   delete(id: number): boolean {

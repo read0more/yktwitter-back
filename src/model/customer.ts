@@ -25,7 +25,7 @@ export default class Customer {
     this.profilePictureURL = profilePictureURL;
   }
 
-  public get entity_id() {
+  public get entityId() {
     return this._entity_id;
   }
 
