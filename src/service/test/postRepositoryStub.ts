@@ -19,4 +19,10 @@ export default class customerRepositoryStub implements PostRepository {
       resolve(post);
     });
   }
+
+  delete(id: number): Promise<boolean> {
+    return new Promise((resolve) => {
+      resolve(!!this.postData[id]);
+    });
+  }
 }

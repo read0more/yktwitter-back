@@ -40,4 +40,16 @@ describe("postService", () => {
     const updatedPost = await postService.update(post);
     expect(updatedPost).toEqual(post);
   });
+
+  describe("delete post", () => {
+    it("delete post", async () => {
+      const result = await postService.delete(0);
+      expect(result).toBe(true);
+    });
+
+    it("trying to delete donsn't exist customer", async () => {
+      const result = await postService.delete(4);
+      expect(result).toBe(false);
+    });
+  });
 });
