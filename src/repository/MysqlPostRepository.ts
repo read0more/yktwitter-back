@@ -56,4 +56,17 @@ export default class MysqlPostRepository implements PostRepository {
       );
     });
   }
+
+  delete(id: number): Promise<boolean> {
+    const query = "DELETE FROM post WHERE entity_id = ?;";
+    return new Promise((resolve, reject) => {
+      global.connection.query(query, [id], (error) => {
+        if (error) {
+          reject(false);
+        }
+
+        resolve(true);
+      });
+    });
+  }
 }

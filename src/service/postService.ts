@@ -15,4 +15,8 @@ export default class PostService {
   update(post: Post) {
     return this.postRepository.update(post);
   }
+
+  delete(id: number) {
+    return this.postRepository.delete(id);
+  }
 }

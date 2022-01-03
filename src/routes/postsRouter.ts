@@ -38,8 +38,16 @@ router.put(PUT, async (req, res) => {
   res.status(200).send(result);
 });
 
-router.delete(DELETE, (req, res) => {
-  res.status(200).send("");
+router.delete(DELETE, async (req, res) => {
+  let id = parseInt(req.params.id);
+  const customer = verifyToken(req.token);
+
+  if (!id || isNaN(id)) {
+    throw Error();
+  }
+
+  const result = await postService.delete(id);
+  res.status(204).send(result);
 });
 
 export default router;
