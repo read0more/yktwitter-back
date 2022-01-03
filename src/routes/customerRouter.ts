@@ -10,6 +10,7 @@ export const ROOT = "/customer";
 export const GET = "/:id";
 export const POST = "/";
 export const PUT = "/:id";
+export const DELETE = "/:id";
 
 router.get(GET, async (req, res) => {
   let customer = null;
@@ -81,6 +82,18 @@ router.put(PUT, async (req, res) => {
   );
 
   res.status(200).send(result);
+});
+
+router.delete(DELETE, async (req, res) => {
+  let entity_id = parseInt(req.params.id);
+  const customer = verifyToken(req.token);
+
+  if (entity_id !== customer.entity_id) {
+    throw Error();
+  }
+
+  const result = await customerService.delete(entity_id);
+  res.status(204).send(result);
 });
 
 export default router;

@@ -54,7 +54,16 @@ export default class MysqlCustomerRepository implements CustomerRepository {
     });
   }
 
-  delete(id: number): boolean {
-    return true;
+  delete(id: number): Promise<boolean> {
+    const query = "DELETE FROM customer WHERE entity_id = ?";
+    return new Promise((resolve, reject) => {
+      global.connection.query(query, [id], (error) => {
+        if (error) {
+          reject(error);
+        }
+
+        resolve(true);
+      });
+    });
   }
 }

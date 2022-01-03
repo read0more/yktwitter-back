@@ -45,7 +45,7 @@ export default class customerRepositoryStub implements CustomerRepository {
     });
   }
 
-  delete(id: number): boolean {
-    return !!customerData[id];
+  delete(id: number): Promise<boolean> {
+    return new Promise((resolve) => resolve(!!customerData[id]));
   }
 }

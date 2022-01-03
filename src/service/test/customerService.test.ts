@@ -61,12 +61,14 @@ describe("customerService", () => {
   });
 
   describe("delete customer", () => {
-    it("delete customer", () => {
-      expect(customerService.delete(2)).toBe(true);
+    it("delete customer", async () => {
+      const result = await customerService.delete(2);
+      expect(result).toBe(true);
     });
 
-    it("trying to delete donsn't exist customer", () => {
-      expect(customerService.delete(4)).toBe(false);
+    it("trying to delete donsn't exist customer", async () => {
+      const result = await customerService.delete(4);
+      expect(result).toBe(false);
     });
   });
 });
