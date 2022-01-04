@@ -21,6 +21,4 @@ connection.connect(function (err) {
     console.error("error connecting: " + err.stack);
     throw Error("DB connection error");
   }
-
-  console.log("connected");
 });
