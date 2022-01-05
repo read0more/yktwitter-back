@@ -30,7 +30,7 @@ export default class MysqlCustomerRepository implements CustomerRepository {
           const customer = new Customer(
             results[0].entity_id,
             results[0].id,
-            results[0].password,
+            "",
             results[0].name,
             results[0].email,
             results[0].profile_picture_url
