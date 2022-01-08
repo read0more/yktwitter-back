@@ -52,12 +52,17 @@ export default class MysqlCustomerRepository implements CustomerRepository {
     const query =
       "UPDATE customer SET email = ?, profile_picture_url = ?, password = ?, name = ?, id = ? WHERE entity_id = ?;";
     return new Promise((resolve, reject) => {
+      const hashedPassword = createPassword(
+        customer.password,
+        process.env.PASSWORD_SALT
+      );
+      customer.password = hashedPassword;
       global.connection.query(
         query,
         [
           customer.email,
           customer.profilePictureURL,
-          createPassword(customer.password, process.env.PASSWORD_SALT),
+          customer.password,
           customer.name,
           customer.id,
           customer.entityId,
