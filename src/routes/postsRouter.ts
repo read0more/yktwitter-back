@@ -29,8 +29,11 @@ router.post(
   POST,
   asyncRouteWrapper(async (req, res) => {
     try {
-      const { customer_id, content } = req.body;
-      const result = await postService.create(new Post(customer_id, content));
+      const { content } = req.body;
+      const customer = verifyToken(req.token);
+      const result = await postService.create(
+        new Post(customer.entity_id, content)
+      );
       res.status(201).send(result);
     } catch (e) {
       res.status(500).send("Failed create posts");

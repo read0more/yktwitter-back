@@ -8,11 +8,12 @@ export default class MysqlPostRepository implements PostRepository {
       global.connection.query(
         query,
         [post.customerId, post.contetnt],
-        (error) => {
+        (error, results: OkPacket) => {
           if (error) {
             reject(error);
           }
 
+          post.entityId = results.insertId;
           resolve(post);
         }
       );
