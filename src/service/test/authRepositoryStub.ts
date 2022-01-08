@@ -16,4 +16,13 @@ export default class authRepositoryStub implements AuthRepository {
       }
     });
   }
+
+  me(id: number): Promise<Customer> {
+    return new Promise((resolve) => {
+      const customer = this.customers.find(
+        (customer) => customer.entityId === id
+      );
+      resolve(customer as Customer);
+    });
+  }
 }

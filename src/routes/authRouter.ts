@@ -10,9 +10,13 @@ export const ROOT = "/auth";
 export const LOGIN = "/login";
 export const ME = "/me";
 
-router.get(ME, (req, res, next) => {
-  const me = authService.me(req.token);
-  res.status(200).send(me);
+router.get(ME, async (req, res) => {
+  try {
+    const me = await authService.me(req.token);
+    res.status(200).send(me);
+  } catch (e) {
+    res.status(401).send("Get me Failed.");
+  }
 });
 
 router.post(LOGIN, async (req, res) => {

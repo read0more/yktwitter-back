@@ -5,7 +5,7 @@ export default class CustomerService {
   constructor(private customerRepository: CustomerRepository) {}
 
   create(customer: Customer) {
-    this.customerRepository.create(customer);
+    return this.customerRepository.create(customer);
   }
 
   read(id: number) {

@@ -1,6 +1,4 @@
 import * as EmailValidator from "email-validator";
-import { createPassword } from "../library/hash";
-
 export default class Customer {
   private _entity_id: number | null = null;
   private _id: string = "";
@@ -49,7 +47,7 @@ export default class Customer {
   }
 
   public set password(password: string) {
-    this._password = createPassword(password, process.env.PASSWORD_SALT);
+    this._password = password;
   }
 
   public set name(name: string) {

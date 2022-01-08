@@ -31,6 +31,6 @@ export default class AuthService {
       process.env.PASSWORD_SALT as string
     ) as TokenInterface;
 
-    return customer;
+    return this.authRepository.me(customer.entity_id);
   }
 }
