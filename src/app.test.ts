@@ -7,7 +7,7 @@ import extractToken from "./middleware/extractToken";
 import { createPassword } from "./library/hash";
 import "./bootstrap";
 import verifyToken from "./library/verifyToken";
-import Customer from "./model/customer";
+
 jest.setTimeout(30000);
 
 const app = express();
@@ -28,6 +28,7 @@ const request = supertest(app);
 describe("app", () => {
   let token: any;
   let customerEntityId: any;
+  let postEntityId: any;
 
   const id = "temp1";
   const password = "temp_password";
@@ -40,6 +41,9 @@ describe("app", () => {
   const updatedName = "update_temp_name";
   const updatedEmail = "update_test@test.com";
   const updatedProfilePictureUrl = "https://update_test.com/image.jpg";
+
+  const postContent = "post 내용";
+  const updatedPostContent = "업데이트 된 post 내용";
 
   it("create customer", (done) => {
     request
@@ -135,6 +139,47 @@ describe("app", () => {
       .expect(200, done);
   });
 
+  it("create post", (done) => {
+    request
+      .post(`${postPath.ROOT}${postPath.POST}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(createPostBodyString(postContent))
+      .expect((res) => {
+        const { entityId, content } = res.body;
+        postEntityId = entityId;
+        expect(content).toBe(postContent);
+      })
+      .expect(201, done);
+  });
+
+  it("get posts", (done) => {
+    request
+      .get(`${postPath.ROOT}${postPath.GET}`)
+      .expect((res) => {
+        expect(res.body.length).toBeGreaterThanOrEqual(1);
+      })
+      .expect(200, done);
+  });
+
+  it("update post", (done) => {
+    request
+      .put(`${postPath.ROOT}/${postEntityId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(createPostBodyString(updatedPostContent))
+      .expect((res) => {
+        const { content } = res.body;
+        expect(content).toBe(updatedPostContent);
+      })
+      .expect(200, done);
+  });
+
+  it("delete post", (done) => {
+    request
+      .delete(`${postPath.ROOT}/${postEntityId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(204, done);
+  });
+
   it("delete customer", (done) => {
     request
       .delete(`${customerPath.ROOT}/${customerEntityId}`)
@@ -151,4 +196,8 @@ function createCustomerBodyString(
   profilePictureURL: string
 ) {
   return `id=${id}&password=${password}&name=${name}&email=${email}&profile_picture_url=${profilePictureURL}`;
+}
+
+function createPostBodyString(content: string) {
+  return `content=${content}`;
 }
