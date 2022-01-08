@@ -7,7 +7,7 @@ export default class MysqlPostRepository implements PostRepository {
     return new Promise((resolve, reject) => {
       global.connection.query(
         query,
-        [post.customerId, post.contetnt],
+        [post.customerId, post.content],
         (error, results: OkPacket) => {
           if (error) {
             reject(error);
@@ -45,17 +45,13 @@ export default class MysqlPostRepository implements PostRepository {
   update(post: Post): Promise<Post> {
     const query = "UPDATE post SET content = ? WHERE entity_id = ?;";
     return new Promise((resolve, reject) => {
-      global.connection.query(
-        query,
-        [post.contetnt, post.entityId],
-        (error) => {
-          if (error) {
-            reject(error);
-          }
-
-          resolve(post);
+      global.connection.query(query, [post.content, post.entityId], (error) => {
+        if (error) {
+          reject(error);
         }
-      );
+
+        resolve(post);
+      });
     });
   }
 
