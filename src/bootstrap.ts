@@ -1,12 +1,14 @@
 import dotenv from "dotenv";
 import { createConnection, Connection } from "mysql";
 import { TokenInterface } from "./service/AuthService";
+import { Server } from "socket.io";
 
 dotenv.config();
 
 declare global {
   var customer: TokenInterface | null;
   var connection: Connection;
+  var socketIo: Server;
 }
 
 global.connection = createConnection({
