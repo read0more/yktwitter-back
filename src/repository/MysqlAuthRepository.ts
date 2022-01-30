@@ -26,7 +26,7 @@ export default class MysqlAuthRepository implements AuthRepository {
 
   me(id: number): Promise<Customer> {
     const query =
-      "SELECT id, password, name, email, profile_picture_url FROM customer WHERE entity_id = ?";
+      "SELECT entity_id, id, password, name, email, profile_picture_url FROM customer WHERE entity_id = ?";
     return new Promise((resolve, reject) => {
       global.connection.query(query, [id], (error, results) => {
         if (!results?.length || error) {
