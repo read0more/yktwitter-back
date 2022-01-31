@@ -34,6 +34,7 @@ router.post(
       const result = await postService.create(
         new Post(customer.entity_id, content)
       );
+      global.socketIo.emit("changed_post", result);
       res.status(201).send(result);
     } catch (e) {
       res.status(500).send("Failed create posts");
@@ -56,6 +57,8 @@ router.put(
       const result = await postService.update(
         new Post(customer.entity_id, content, id)
       );
+
+      global.socketIo.emit("changed_post", result);
       res.status(200).send(result);
     } catch (e) {
       res.status(500).send("Failed update posts");
@@ -75,6 +78,8 @@ router.delete(
       }
 
       const result = await postService.delete(id);
+
+      global.socketIo.emit("changed_post", result);
       res.status(204).send(result);
     } catch (e) {
       res.status(500).send("Failed delete posts");

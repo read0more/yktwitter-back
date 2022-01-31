@@ -13,8 +13,9 @@ export default class MysqlPostRepository implements PostRepository {
             reject(error);
           }
 
-          post.entityId = results.insertId;
-          resolve(post);
+          global.connection.query("SELECT * FROM post", (error, results) => {
+            resolve(results);
+          });
         }
       );
     });
@@ -45,13 +46,19 @@ export default class MysqlPostRepository implements PostRepository {
   update(post: Post): Promise<Post> {
     const query = "UPDATE post SET content = ? WHERE entity_id = ?;";
     return new Promise((resolve, reject) => {
-      global.connection.query(query, [post.content, post.entityId], (error) => {
-        if (error) {
-          reject(error);
-        }
+      global.connection.query(
+        query,
+        [post.content, post.entityId],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          }
 
-        resolve(post);
-      });
+          global.connection.query("SELECT * FROM post", (error, results) => {
+            resolve(results);
+          });
+        }
+      );
     });
   }
 
@@ -63,7 +70,9 @@ export default class MysqlPostRepository implements PostRepository {
           reject(false);
         }
 
-        resolve(true);
+        global.connection.query("SELECT * FROM post", (error, results) => {
+          resolve(results);
+        });
       });
     });
   }
