@@ -2,19 +2,33 @@ import { OkPacket } from "mysql";
 import PostRepository from "../interface/PostRepository";
 import Post from "../model/Post";
 export default class MysqlPostRepository implements PostRepository {
+  selectQuery =
+    "SELECT p.entity_id, content, created_at, c.entity_id as customer_entity_id, id as customer_id, name as customer_name, profile_picture_url as customer_profile_picture_url FROM post as p, customer as c WHERE p.customer_id = c.entity_id";
   create(post: Post): Promise<Post> {
     const query = "INSERT INTO post (customer_id,content) VALUES (?, ?)";
     return new Promise((resolve, reject) => {
       global.connection.query(
         query,
-        [post.customerId, post.content],
+        [post.customerEntityId, post.content],
         (error, results: OkPacket) => {
           if (error) {
             reject(error);
           }
 
-          global.connection.query("SELECT * FROM post", (error, results) => {
-            resolve(results);
+          global.connection.query(this.selectQuery, (error, results) => {
+            resolve(
+              results.map((row: any) =>
+                new Post(
+                  row.customer_entity_id,
+                  row.content,
+                  row.entity_id,
+                  new Date(row.created_at),
+                  row.customer_id,
+                  row.customer_name,
+                  row.customer_profile_picture_url
+                ).toSnakeCase()
+              )
+            );
           });
         }
       );
@@ -22,21 +36,22 @@ export default class MysqlPostRepository implements PostRepository {
   }
 
   readAll(): Promise<any> {
-    const query = "SELECT * FROM post";
     return new Promise((resolve, reject) => {
-      global.connection.query(query, (error, results) => {
+      global.connection.query(this.selectQuery, (error, results) => {
         if (error) {
           reject(error);
         }
         resolve(
-          results.map(
-            (post: any) =>
-              new Post(
-                post.customer_id,
-                post.content,
-                post.entity_id,
-                new Date(post.created_at)
-              )
+          results.map((row: any) =>
+            new Post(
+              row.customer_entity_id,
+              row.content,
+              row.entity_id,
+              new Date(row.created_at),
+              row.customer_id,
+              row.customer_name,
+              row.customer_profile_picture_url
+            ).toSnakeCase()
           )
         );
       });
@@ -54,8 +69,20 @@ export default class MysqlPostRepository implements PostRepository {
             reject(error);
           }
 
-          global.connection.query("SELECT * FROM post", (error, results) => {
-            resolve(results);
+          global.connection.query(this.selectQuery, (error, results) => {
+            resolve(
+              results.map((row: any) =>
+                new Post(
+                  row.customer_entity_id,
+                  row.content,
+                  row.entity_id,
+                  new Date(row.created_at),
+                  row.customer_id,
+                  row.customer_name,
+                  row.customer_profile_picture_url
+                ).toSnakeCase()
+              )
+            );
           });
         }
       );
@@ -70,8 +97,20 @@ export default class MysqlPostRepository implements PostRepository {
           reject(false);
         }
 
-        global.connection.query("SELECT * FROM post", (error, results) => {
-          resolve(results);
+        global.connection.query(this.selectQuery, (error, results) => {
+          resolve(
+            results.map((row: any) =>
+              new Post(
+                row.customer_entity_id,
+                row.content,
+                row.entity_id,
+                new Date(row.created_at),
+                row.customer_id,
+                row.customer_name,
+                row.customer_profile_picture_url
+              ).toSnakeCase()
+            )
+          );
         });
       });
     });
