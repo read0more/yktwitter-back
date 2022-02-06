@@ -1,6 +1,6 @@
 import "./bootstrap";
 import http from "http";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import authRouter, * as authPath from "./routes/authRouter";
 import customerRouter, * as customerPath from "./routes/customerRouter";
@@ -25,8 +25,9 @@ app.use((req, res, next) => {
   res.status(404).send("Not available");
 });
 
-app.use((error: any, req: any, res: any, next: any) => {
-  res.status(500).send("Something wrong");
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(error);
+  res.sendStatus(500);
 });
 
 const server = http.createServer(app);
