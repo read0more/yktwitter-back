@@ -7,11 +7,13 @@ import customerRouter, * as customerPath from "./routes/customerRouter";
 import postsRouter, * as postsPath from "./routes/postsRouter";
 import extractToken from "./middleware/extractToken";
 import { Server } from "socket.io";
+import helmet from "helmet";
 
 const app = express();
 
 app.use(cors({ credentials: true }));
 app.use(extractToken);
+app.use(helmet());
 app.use(
   express.urlencoded({
     extended: true,
