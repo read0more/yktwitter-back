@@ -10,9 +10,8 @@ export async function create(req: Request, res: Response) {
   try {
     const { content } = req.body;
     const customer = verifyToken(req.token);
-    const result = await postService.create(
-      new Post(customer.entity_id, content)
-    );
+    await postService.create(new Post(customer.entity_id, content));
+    const result = await postService.readAll();
     global.socketIo.emit("changed_post", result);
     res.status(201).send(result);
   } catch (e) {
@@ -39,10 +38,8 @@ export async function update(req: Request, res: Response) {
 
     const { content } = req.body;
     const customer = verifyToken(req.token);
-    const result = await postService.update(
-      new Post(customer.entity_id, content, id)
-    );
-
+    await postService.update(new Post(customer.entity_id, content, id));
+    const result = await postService.readAll();
     global.socketIo.emit("changed_post", result);
     res.status(200).send(result);
   } catch (e) {
@@ -59,8 +56,8 @@ export async function deletePost(req: Request, res: Response) {
       throw Error();
     }
 
-    const result = await postService.delete(id);
-
+    await postService.delete(id);
+    const result = await postService.readAll();
     global.socketIo.emit("changed_post", result);
     res.status(204).send(result);
   } catch (e) {

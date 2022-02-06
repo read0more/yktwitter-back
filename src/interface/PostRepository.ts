@@ -1,8 +1,8 @@
 import Post from "../model/Post";
 
 export default interface CustomerRepository {
-  create(post: Post): Promise<Post>;
+  create(post: Post): Promise<void>;
   readAll(): Promise<Post[]>;
-  update(post: Post): Promise<Post>;
-  delete(id: number): Promise<boolean>;
+  update(post: Post): Promise<void>;
+  delete(id: number): Promise<void>;
 }
