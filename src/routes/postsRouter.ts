@@ -1,90 +1,17 @@
 import { Router } from "express";
 import asyncRouteWrapper from "../library/asyncRouteWrapper";
-import verifyToken from "../library/verifyToken";
-import Post from "../model/Post";
-import MysqlPostRepository from "../repository/MysqlPostRepository";
-import PostService from "../service/postService";
+import * as PostController from "../controller/postController";
 
 const router = Router();
-const postService = new PostService(new MysqlPostRepository());
 export const ROOT = "/posts";
 export const GET = "/";
 export const POST = "/";
 export const PUT = "/:id";
 export const DELETE = "/:id";
 
-router.get(
-  GET,
-  asyncRouteWrapper(async (req, res) => {
-    try {
-      const result = await postService.readAll();
-      res.status(200).send(result);
-    } catch (e) {
-      res.status(500).send("Failed read posts");
-    }
-  })
-);
-
-router.post(
-  POST,
-  asyncRouteWrapper(async (req, res) => {
-    try {
-      const { content } = req.body;
-      const customer = verifyToken(req.token);
-      const result = await postService.create(
-        new Post(customer.entity_id, content)
-      );
-      global.socketIo.emit("changed_post", result);
-      res.status(201).send(result);
-    } catch (e) {
-      res.status(500).send("Failed create posts");
-    }
-  })
-);
-
-router.put(
-  PUT,
-  asyncRouteWrapper(async (req, res) => {
-    try {
-      let id = parseInt(req.params.id);
-
-      if (!id || isNaN(id)) {
-        throw Error();
-      }
-
-      const { content } = req.body;
-      const customer = verifyToken(req.token);
-      const result = await postService.update(
-        new Post(customer.entity_id, content, id)
-      );
-
-      global.socketIo.emit("changed_post", result);
-      res.status(200).send(result);
-    } catch (e) {
-      res.status(500).send("Failed update posts");
-    }
-  })
-);
-
-router.delete(
-  DELETE,
-  asyncRouteWrapper(async (req, res) => {
-    try {
-      let id = parseInt(req.params.id);
-      verifyToken(req.token);
-
-      if (!id || isNaN(id)) {
-        throw Error();
-      }
-
-      const result = await postService.delete(id);
-
-      global.socketIo.emit("changed_post", result);
-      res.status(204).send(result);
-    } catch (e) {
-      res.status(500).send("Failed delete posts");
-    }
-  })
-);
+router.get(GET, asyncRouteWrapper(PostController.readAll));
+router.post(POST, asyncRouteWrapper(PostController.create));
+router.put(PUT, asyncRouteWrapper(PostController.update));
+router.delete(DELETE, asyncRouteWrapper(PostController.deletePost));
 
 export default router;
