@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import asyncRouteWrapper from "../library/asyncRouteWrapper";
 import verifyToken from "../library/verifyToken";
 import Post from "../model/Post";
 import MysqlPostRepository from "../repository/MysqlPostRepository";
