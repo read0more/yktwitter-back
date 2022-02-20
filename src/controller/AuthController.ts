@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { createPassword } from "../library/hash";
+import { setToken } from "../library/verifyToken";
 import MysqlAuthRepository from "../repository/MysqlAuthRepository";
 import AuthService from "../service/AuthService";
 
@@ -19,8 +20,14 @@ export async function login(req: Request, res: Response) {
     let { id, password } = req.body;
     password = createPassword(password, process.env.PASSWORD_SALT);
     const token = await authService.login(id, password);
+    setToken(res, token);
     res.status(200).send(token);
   } catch (e) {
     res.status(401).send("Login Failed.");
   }
+}
+
+export function logout(req: Request, res: Response) {
+  res.cookie("token", "");
+  res.status(200).json({ message: "User has been logged out" });
 }
