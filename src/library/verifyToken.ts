@@ -22,4 +22,5 @@ export function setToken(res: Response, token: string) {
     // maxAge: ... 밀리세컨드로 언제 만료될지 설정
   };
   res.cookie("token", token, options);
+  res.cookie("token_expire", "", { maxAge: 100 * 1000 });
 }
