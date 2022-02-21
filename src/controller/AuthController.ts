@@ -31,3 +31,15 @@ export function logout(req: Request, res: Response) {
   res.cookie("token", "");
   res.status(200).json({ message: "User has been logged out" });
 }
+
+export async function csrfToken(req: Request, res: Response) {
+  const csrfToken = await generateCSRFToken();
+  res.status(200).json({ csrfToken });
+}
+
+async function generateCSRFToken() {
+  return createPassword(
+    process.env.CSRF_SECRET_KEY as string,
+    process.env.PASSWORD_SALT
+  );
+}

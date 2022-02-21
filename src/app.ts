@@ -9,6 +9,7 @@ import postsRouter, * as postsPath from "./routes/postsRouter";
 import extractToken from "./middleware/extractToken";
 import { Server } from "socket.io";
 import helmet from "helmet";
+import { csrfCheck } from "./middleware/csrf";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(
     extended: true,
   })
 );
+app.use(csrfCheck);
 app.use(authPath.ROOT, authRouter);
 app.use(customerPath.ROOT, customerRouter);
 app.use(postsPath.ROOT, postsRouter);
