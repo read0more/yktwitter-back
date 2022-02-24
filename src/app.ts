@@ -10,6 +10,7 @@ import extractToken from "./middleware/extractToken";
 import { Server } from "socket.io";
 import helmet from "helmet";
 import { csrfCheck } from "./middleware/csrf";
+import rateLimit from "./middleware/rateLimiter";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(
     extended: true,
   })
 );
+app.use(rateLimit);
 app.use(csrfCheck);
 app.use(authPath.ROOT, authRouter);
 app.use(customerPath.ROOT, customerRouter);
