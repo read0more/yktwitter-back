@@ -22,7 +22,7 @@ export default class AuthService {
       return jwt.sign(customerObject, salt, { expiresIn: "6h" });
     }
 
-    return null;
+    throw new Error("failed login");
   }
 
   me(token: string) {

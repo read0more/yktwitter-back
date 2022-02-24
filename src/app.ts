@@ -2,16 +2,20 @@ import "./bootstrap";
 import http from "http";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import authRouter, * as authPath from "./routes/authRouter";
 import customerRouter, * as customerPath from "./routes/customerRouter";
 import postsRouter, * as postsPath from "./routes/postsRouter";
 import extractToken from "./middleware/extractToken";
 import { Server } from "socket.io";
 import helmet from "helmet";
+import { csrfCheck } from "./middleware/csrf";
+import rateLimit from "./middleware/rateLimiter";
 
 const app = express();
 
-app.use(cors({ credentials: true }));
+app.use(cookieParser());
+app.use(cors({ credentials: true, origin: "http://localhost:3001" }));
 app.use(extractToken);
 app.use(helmet());
 app.use(
@@ -19,6 +23,8 @@ app.use(
     extended: true,
   })
 );
+app.use(rateLimit);
+app.use(csrfCheck);
 app.use(authPath.ROOT, authRouter);
 app.use(customerPath.ROOT, customerRouter);
 app.use(postsPath.ROOT, postsRouter);
